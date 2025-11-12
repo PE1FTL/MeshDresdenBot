@@ -180,7 +180,7 @@ def find_free_port():
 #    └──────────────────────────────────────────────────────────┘
 if __name__ == '__main__':
     listener = Listener()
-    port = find_free_port()
+    port = 8088   # find_free_port()
     if os.name == 'nt':
         os.system(f'explorer "http:/127.0.0.1:{port}"')
     else:
