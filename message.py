@@ -148,6 +148,33 @@ class Message:
             text = data['text']
         else:
             text = '*** ENCRYPTED TEXT ***'
+
+# === PING-PONG BOT: BROADCAST AUF CHANNEL 2 (sec) ===
+        if (
+            self.application == 'TEXT_MESSAGE_APP'
+            and data.get('channel', '').startswith('test')  # Kanalname "test"
+            and text.strip().lower() == '#ping'
+        ):
+            # Vermeide Selbst-Antwort
+            if self.packet['from'] != Mesh().node.localNode.nodeNum:
+                from datetime import datetime
+                import pytz
+
+                now = datetime.now(pytz.UTC).strftime('%Y-%m-%d %H:%M:%S UTC')
+                response = f"pong {now}"
+
+                try:
+                    # BROADCAST: Kein destinationId → an alle auf channelIndex=1
+                    self.interface.sendText(
+                        text=response,
+                        channelIndex=1  # Channel 2
+                        # destinationId wird NICHT gesetzt → Broadcast
+                    )
+                    print(f"[BOT] BROADCAST auf sec: {response}")
+                except Exception as e:
+                    print(f"[BOT] Broadcast-Fehler: {e}")
+
+# === UI: Nachricht anzeigen ===
         self.status.add_msg(data['received'], data['fromName'], data['toName'], data['channel'], text, self.fromId)
 
         self.add_node_to_ui('Text', text[:32])
