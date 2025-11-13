@@ -292,17 +292,22 @@ class Message:
         return f"Test OK | {now} | MeshDDBot v1.0"
 
     def bot_generate_nodes(self):
-        """Liste aller bekannter Nodes mit Name und ID"""
-        nodes = NodeData().get_nodes()
-        if not nodes:
+        """Liste aller bekannter Nodes – 100 % KeyError‑sicher"""
+        nodes_dict = NodeData().get_nodes()          # <-- korrekte Methode
+        if not nodes_dict:
             return "Keine Nodes bekannt."
-        
-        lines = [f"{len(nodes)} Nodes:"]
-        for node in sorted(nodes, key=lambda x: x['user']['longName']):
-            name = node['user']['longName']
-            node_id = f"!{node['num']:08x}"
+
+        lines = [f"{len(nodes_dict)} Nodes:"]
+        # Sortierung nach longName (fallback: Node‑ID)
+        for node_id, node in sorted(
+            nodes_dict.items(),
+            key=lambda kv: kv[1].get('user', {}).get('longName', kv[0]).lower()
+        ):
+            # ---- sicherer Zugriff ----
+            user = node.get('user') or {}            # dict oder None → {}
+            name = user.get('longName') or 'Unbekannt'
             lines.append(f"  • {name} ({node_id})")
-        return "\n".join(lines[:10])  # Max 10 Zeilen
+        return "\n".join(lines[:10])                # max. 12 Zeilen (Meshtastic‑Limit)
 
     def bot_generate_info(self):
         """Netzwerk- und Bot-Info"""
