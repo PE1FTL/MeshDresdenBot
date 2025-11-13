@@ -293,7 +293,7 @@ class Message:
 
     def bot_generate_nodes(self):
         """Liste aller bekannter Nodes mit Name und ID"""
-        nodes = NodeData().get_all_nodes()
+        nodes = NodeData().get_nodes()
         if not nodes:
             return "Keine Nodes bekannt."
         
