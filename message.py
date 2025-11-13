@@ -150,30 +150,38 @@ class Message:
             text = '*** ENCRYPTED TEXT ***'
 
 # === PING-PONG BOT: BROADCAST AUF CHANNEL 2 (sec) ===
-        if (
-            self.application == 'TEXT_MESSAGE_APP'
-            and self.packet.get('channel',0) == 1 # Channel2 (index 1)
-            and text.strip().lower() == '#ping'
-        ):
+        if self.application == 'TEXT_MESSAGE_APP' and self.packet.get('channel', 0) == 1:
+            text = data['text'].strip().lower()
+            command = text.split()[0] if text else ""
+            args = text[len(command):].strip() if text else ""
+
             # Vermeide Selbst-Antwort
-            if self.packet['from'] != Mesh().node.localNode.nodeNum:
-                from datetime import datetime
-                import pytz
+            if self.packet['from'] == Mesh().node.localNode.nodeNum:
+                pass  # Ignoriere eigene Nachrichten
+            else:
+                response = None
 
-                now = datetime.now(pytz.UTC).strftime('%Y-%m-%d %H:%M:%S UTC')
-                response = f"pong {now}"
+                if command == '#ping':
+                    response = self.bot_generate_ping()
+                elif command == '#test':
+                    response = self.bot_generate_test()
+                elif command == '#nodes':
+                    response = self.bot_generate_nodes()
+                elif command == '#info':
+                    response = self.bot_generate_info()
+                elif command == '#self':
+                    response = self.bot_generate_self()
 
-                try:
-                    # BROADCAST: Kein destinationId → an alle auf channelIndex=1
-                    self.interface.sendText(
-                        text=response,
-                        channelIndex=1  # Channel 2
-                        # destinationId wird NICHT gesetzt → Broadcast
-                    )
-                    print(f"[BOT] BROADCAST auf sec: {response}")
-                except Exception as e:
-                    print(f"[BOT] Broadcast-Fehler: {e}")
-
+                if response:
+                    try:
+                        self.interface.sendText(
+                            text=response,
+                            channelIndex=1
+                        )
+                        print(f"[BOT] Antwort auf {command}: {response.split()[0]}...")
+                    except Exception as e:
+                        print(f"[BOT] Sendefehler: {e}")
+    
 # === UI: Nachricht anzeigen ===
         self.status.add_msg(data['received'], data['fromName'], data['toName'], data['channel'], text, self.fromId)
 
@@ -265,3 +273,51 @@ class Message:
         data['received'] = dt.strftime('%Y-%m-%d %H:%M:%S')
 
         return data
+
+# === BOT UNTERROUTINEN ===
+    def bot_generate_ping(self):
+        """Erweiterte Pong-Antwort mit UTC-Zeit und Node-ID"""
+        from datetime import datetime
+        import pytz
+        now = datetime.now(pytz.UTC).strftime('%Y-%m-%d %H:%M:%S UTC')
+        local_node = Mesh().node.localNode
+        node_id = f"!{local_node.nodeNum:08x}"
+        return f"pong {now} | Node: {node_id}"
+
+    def bot_generate_test(self):
+        """Testantwort mit Echo und System-Check"""
+        from datetime import datetime
+        import pytz
+        now = datetime.now(pytz.UTC).strftime('%H:%M:%S')
+        return f"Test OK | {now} | MeshDDBot v1.0"
+
+    def bot_generate_nodes(self):
+        """Liste aller bekannter Nodes mit Name und ID"""
+        nodes = NodeData().get_all_nodes()
+        if not nodes:
+            return "Keine Nodes bekannt."
+        
+        lines = [f"{len(nodes)} Nodes:"]
+        for node in sorted(nodes, key=lambda x: x['user']['longName']):
+            name = node['user']['longName']
+            node_id = f"!{node['num']:08x}"
+            lines.append(f"  • {name} ({node_id})")
+        return "\n".join(lines[:10])  # Max 10 Zeilen
+
+    def bot_generate_info(self):
+        """Netzwerk- und Bot-Info"""
+        from datetime import datetime
+        import pytz
+        now = datetime.now(pytz.UTC).strftime('%Y-%m-%d %H:%M:%S UTC')
+        local = Mesh().node.localNode
+        uptime = format_seconds(local.uptimeSeconds) if hasattr(local, 'uptimeSeconds') else "unbek."
+        return f"MeshDDBot Info:\nZeit: {now}\nUptime: {uptime}\nKanal: sec (2)"
+
+    def bot_generate_self(self):
+        """Info über den eigenen Node"""
+        local = Mesh().node.localNode
+        node_id = f"!{local.nodeNum:08x}"
+        hw = local.hwModel if hasattr(local, 'hwModel') else "unbek."
+        role = local.role if hasattr(local, 'role') else "unbek."
+        battery = local.deviceMetrics.batteryLevel if hasattr(local, 'deviceMetrics') and local.deviceMetrics.batteryLevel else "unbek."
+        return f"Self:\nID: {node_id}\nHW: {hw}\nRole: {role}\nBat: {battery}%"
