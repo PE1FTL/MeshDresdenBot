@@ -3,4 +3,3 @@
 __pycache__
 packetlog.txt
 /persisted_data.pkl
-/config.toml

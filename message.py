@@ -152,7 +152,7 @@ class Message:
 # === PING-PONG BOT: BROADCAST AUF CHANNEL 2 (sec) ===
         if (
             self.application == 'TEXT_MESSAGE_APP'
-            and data.get('channel', '').startswith('test')  # Kanalname "test"
+            and self.packet.get('channel',0) == 1 # Channel2 (index 1)
             and text.strip().lower() == '#ping'
         ):
             # Vermeide Selbst-Antwort
