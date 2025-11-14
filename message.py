@@ -329,7 +329,7 @@ class Message:
         battery = local.deviceMetrics.batteryLevel if hasattr(local, 'deviceMetrics') and local.deviceMetrics.batteryLevel else "unbek."
         return f"Self:\nID: {node_id}\nHW: {hw}\nRole: {role}\nBat: {battery}%"
 
-    def bot_generate_self(self):
+    def bot_generate_help(self):
         """Help for Bot"""
         return f"TESTBETRIEB!\n\nHilfe:\n!info --> Info\n!ping --> pong-Antwort\n!test --> allg. Test\n"
         
