@@ -161,16 +161,18 @@ class Message:
             else:
                 response = None
 
-                if command == '#ping':
+                if command == '!ping':
                     response = self.bot_generate_ping()
-                elif command == '#test':
+                elif command == '!test':
                     response = self.bot_generate_test()
-                elif command == '#nodes':
+                elif command == '!nodes':
                     response = self.bot_generate_nodes()
-                elif command == '#info':
+                elif command == '!info':
                     response = self.bot_generate_info()
-                elif command == '#self':
+                elif command == '!self':
                     response = self.bot_generate_self()
+                elif command == '!help':
+                    response = self.bot_generate_help()
 
                 if response:
                     try:
@@ -326,3 +328,8 @@ class Message:
         role = local.role if hasattr(local, 'role') else "unbek."
         battery = local.deviceMetrics.batteryLevel if hasattr(local, 'deviceMetrics') and local.deviceMetrics.batteryLevel else "unbek."
         return f"Self:\nID: {node_id}\nHW: {hw}\nRole: {role}\nBat: {battery}%"
+
+    def bot_generate_self(self):
+        """Help for Bot"""
+        return f"TESTBETRIEB!\n\nHilfe:\n!info --> Info\n!ping --> pong-Antwort\n!test --> allg. Test\n"
+        

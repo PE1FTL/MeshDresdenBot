@@ -4,7 +4,7 @@
 # Used for distance calculations
 [location]
 latitude     =   51.0000        # As much precision as you like, but remember that Meshtastic reporting will
-longitude    =   13.6336        # typicaly futz your position unless you tell it to be precise.
+longitude    =   13.6105       # typicaly futz your position unless you tell it to be precise.
 
 # Data Management in Application
 [data]
