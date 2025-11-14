@@ -1,4 +1,4 @@
-# Meshtastic Monitor
+# Meshtastic Monitor für meshdresden.eu
 
 This program was created because I wanted to have a better idea of what was going on in my Meshtastic neighgorhood, and I wanted to have a better sense of what happened when I sent / received messages.
 
