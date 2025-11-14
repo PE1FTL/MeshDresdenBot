@@ -42,7 +42,7 @@ User=$CURRENT_USER
 Group=$CURRENT_GROUP
 WorkingDirectory=$PROJECT_DIR
 Environment="PATH=$VENV_DIR/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
-ExecStart=$VENV_DIR/bin/python $MAIN_SCRIPT
+ExecStart=$VENV_DIR/bin/python $MAIN_SCRIPT /dev/ttyUSB0
 Restart=always
 RestartSec=5
 
