@@ -5,7 +5,7 @@ RED='\033[0;31m'; GREEN='\033[0;32m'; YELLOW='\033[1;33m'; NC='\033[0m'
 
 PROJECT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 VENV_DIR="$PROJECT_DIR/venv"
-SERVICE_NAME="mein_projekt"
+SERVICE_NAME="MeshDresdenBot"
 SERVICE_FILE="/etc/systemd/system/${SERVICE_NAME}.service"
 
 echo -e "${YELLOW}Deinstalliere $SERVICE_NAME...${NC}"

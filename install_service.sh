@@ -7,7 +7,7 @@ PROJECT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 VENV_DIR="$PROJECT_DIR/venv"
 REQUIREMENTS_FILE="$PROJECT_DIR/requirements.txt"
 MAIN_SCRIPT="$PROJECT_DIR/app.py"  # ← ÄNDERN bei anderem Namen!
-SERVICE_NAME="mein_projekt"
+SERVICE_NAME="MeshDresdenBot"
 SERVICE_FILE="/etc/systemd/system/${SERVICE_NAME}.service"
 
 CURRENT_USER="$(whoami)"
@@ -52,8 +52,8 @@ EOF
 
 # Aktivieren
 sudo systemctl daemon-reload
-sudo systemctl enable "$SERVICE_NAME.service" --quiet
-sudo systemctl restart "$SERVICE_NAME.service"
+#sudo systemctl enable "$SERVICE_NAME.service" --quiet
+#sudo systemctl restart "$SERVICE_NAME.service"
 
 sleep 2
 if systemctl is-active --quiet "$SERVICE_NAME.service"; then

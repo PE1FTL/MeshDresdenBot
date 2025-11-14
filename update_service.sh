@@ -6,7 +6,7 @@ RED='\033[0;31m'; GREEN='\033[0;32m'; YELLOW='\033[1;33m'; NC='\033[0m'
 PROJECT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 VENV_DIR="$PROJECT_DIR/venv"
 REQUIREMENTS_FILE="$PROJECT_DIR/requirements.txt"
-SERVICE_NAME="mein_projekt"
+SERVICE_NAME="MeshDresdenBot"
 
 echo -e "${YELLOW}Aktualisiere $SERVICE_NAME...${NC}"
 
