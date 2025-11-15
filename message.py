@@ -151,6 +151,7 @@ class Message:
 
 # === PING-PONG BOT: BROADCAST AUF CHANNEL 2 (sec) ===
         if self.application == 'TEXT_MESSAGE_APP' and self.packet.get('channel', 0) == 1:
+            in_channel = self.packet.get('channel', 0)
             text = data['text'].strip().lower()
             command = text.split()[0] if text else ""
             args = text[len(command):].strip() if text else ""
@@ -178,7 +179,7 @@ class Message:
                     try:
                         self.interface.sendText(
                             text=response,
-                            channelIndex=1
+                            channelIndex=in_channel
                         )
                         print(f"[BOT] Antwort auf {command}: {response.split()[0]}...")
                     except Exception as e:
