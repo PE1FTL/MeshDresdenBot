@@ -281,7 +281,7 @@ function traceRoute(rowData) {
 
 function openMap(rowData) {
     const nodeNum = parseInt(rowData, 16)
-    window.open('https://meshtastic.liamcottle.net/?node_id=' + String(nodeNum), "_blank");
+    window.open('https://meshmap.net/#' + String(nodeNum), "_blank");
 }
 
 // Initialize the modal
