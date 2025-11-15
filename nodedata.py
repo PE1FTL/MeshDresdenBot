@@ -74,9 +74,12 @@ class NodeData:
             ('id', 'id'),
             ('hopsAway', 'hopsAway'),
             ('publicKey', 'publicKey'),
-            ('latittude', 'posistion.latittude'),
-            ('longitude', 'posistion.longitude'),
-            ('altitude', 'posistion.altitude'),
+            #('latittude', 'posistion.latittude'),
+            #('longitude', 'posistion.longitude'),
+            #('altitude', 'posistion.altitude'),
+            ('latitude', 'position.latitude'),
+            ('longitude', 'position.longitude'),
+            ('altitude', 'position.altitude'),
             ('hwModel', 'user.hwModel')
         ]
 

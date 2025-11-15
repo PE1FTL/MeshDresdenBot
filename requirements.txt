@@ -1,6 +1,6 @@
 Flask==3.1.0
 geopy==2.4.1
 Jinja2==3.1.5
-meshtastic==2.5.9
+meshtastic==2.7.4
 pydantic==2.10.4
-pytz
+pytz==2025.2
