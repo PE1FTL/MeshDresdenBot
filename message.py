@@ -150,7 +150,8 @@ class Message:
             text = '*** ENCRYPTED TEXT ***'
 
 # === PING-PONG BOT: BROADCAST AUF CHANNEL 2 (sec) ===
-        if self.application == 'TEXT_MESSAGE_APP' and self.packet.get('channel', 0) == 1:
+        #if self.application == 'TEXT_MESSAGE_APP' and self.packet.get('channel', 0) == 1:
+        if self.application == 'TEXT_MESSAGE_APP':
             in_channel = self.packet.get('channel', 0)
             text = data['text'].strip().lower()
             command = text.split()[0] if text else ""
