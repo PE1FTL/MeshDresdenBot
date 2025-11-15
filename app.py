@@ -181,10 +181,10 @@ def find_free_port():
 if __name__ == '__main__':
     listener = Listener()
     port = 8088   # find_free_port()
-    if os.name == 'nt':
-        os.system(f'explorer "http:/127.0.0.1:{port}"')
-    else:
-        os.system(f'open http://127.0.0.1:{port}')
+#    if os.name == 'nt':
+#        os.system(f'explorer "http:/127.0.0.1:{port}"')
+#    else:
+#        os.system(f'open http://127.0.0.1:{port}')
 
     print(f'To reopen browser, go to: http://127.0.0.1:{port}')
     app.run(host='0.0.0.0', port=port, debug=False)
